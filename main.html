@@ -28,6 +28,10 @@
 		var param = $(e.target).text();
 		$('#selection_buttons').find('.btn-success').removeClass("btn-success");
 		$(e.target).addClass("btn btn-success");
+
+		h = "loading..."
+		$("#d1").html(h);
+		
 		getlinks(param);
 	});
 	});
