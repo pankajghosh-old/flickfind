@@ -6,6 +6,7 @@ import flask
 from flask import Flask
 
 app = Flask(__name__)
+cache = {}
 
 @app.route('/')
 def hello():
@@ -21,10 +22,15 @@ def api():
 
 @app.route('/links')
 def links():
+        global cache
         title = flask.request.args.get('title','gorilla')
-        r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
-	r1 = flask.make_response(r.text)
-	# r1 = flask.make_response( json.loads(r.text) )
+        if (title in cache) and (len(cache[title]) > 10):
+                rr = cache[title]
+        else:
+                r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
+                rr = r.text
+                cache[title] = rr
+	r1 = flask.make_response(rr)
 	r1.mimetype = 'application/json'
 	return r1
 
