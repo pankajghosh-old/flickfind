@@ -1,12 +1,12 @@
 	<html>
 	<head>
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>
-	$( document ).ready(function() {
-
-		$.getJSON( "/links	", function( data ) {
-			// console.log("test")
-			// console.log(data.length);
+	function getlinks(param) {
+		var url = "/links"+"?title="+param
+		console.log(url)
+		$.getJSON( url, function( data ) {
 			var h = "";
 
 			data.forEach(function(entry) {
@@ -19,11 +19,23 @@
 
 			$("#d1").html(h);
 		});
+	}
 
+	$( document ).ready(function() {getlinks("shawshank")});
+
+	$( document ).ready( ".btn" ).click(function( e ) {
+		var param = $(e.target).text();
+		console.log(param);
+		getlinks(param);
 	});
+
 	</script>
 	</head>
 	<body>
+	<a class="btn btn-default">Dog</a>
+	<a class="btn btn-default">Cat</a>
+	<a class="btn btn-default">cafe</a>
+	<a class="btn btn-default">paris</a>
 	<div id="d1">loading...</div>
 	</body>
 	</html>
