@@ -9,8 +9,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-	return "dog"
-	# return open("main.html", 'r').read()
+	# return "dog"
+	return open("main.html", 'r').read()
 
 @app.route('/api')
 def api():
