@@ -48,7 +48,8 @@ def links():
                 rc = r.text
                 j = json.loads(rc)
                 for jj in j:
-                        jj['urlPoster'] = '/img?url='+jj['urlPoster']
+            		if jj['urlPoster']:
+	            		jj['urlPoster'] = '/img?url='+jj['urlPoster']
                 rr = json.dumps(j)
                 cache[title] = rr
 	r1 = flask.make_response(rr)

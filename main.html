@@ -25,17 +25,20 @@
 
 	$( document ).ready( ".btn" ).click(function( e ) {
 		var param = $(e.target).text();
-		console.log(param);
+		$('#selection_buttons').find('.btn-success').removeClass("btn-success");
+		$(e.target).addClass("btn btn-success");
 		getlinks(param);
 	});
 
 	</script>
 	</head>
 	<body>
+	<div id="selection_buttons">
 	<a class="btn btn-default">Dog</a>
 	<a class="btn btn-default">Cat</a>
 	<a class="btn btn-default">cafe</a>
 	<a class="btn btn-default">paris</a>
+	</div>
 	<div id="d1">loading...</div>
 	</body>
 	</html>
