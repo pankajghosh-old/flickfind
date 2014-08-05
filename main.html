@@ -1,0 +1,29 @@
+	<html>
+	<head>
+	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script>
+	$( document ).ready(function() {
+
+		$.getJSON( "/links	", function( data ) {
+			// console.log("test")
+			// console.log(data.length);
+			var h = "";
+
+			data.forEach(function(entry) {
+
+			var poster = entry["urlPoster"];
+			var link = entry["urlIMDB"];
+
+			h += "<a href='"+link+"'><img src='"+poster+"'></a>"
+			});
+
+			$("#d1").html(h);
+		});
+
+	});
+	</script>
+	</head>
+	<body>
+	<div id="d1">loading...</div>
+	</body>
+	</html>
