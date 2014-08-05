@@ -26,8 +26,12 @@ def img():
         global imgcache
         l = flask.request.args.get('url',None)
         if l:
-                c = requests.get(l)
-                r1 = flask.make_response(c.content)
+                if l in imgcache:
+                        c = imgcache[l]
+                else:
+                        c = requests.get(l).content
+                        imgcache[l] = c
+                r1 = flask.make_response(c)
                 r1.mimetype = 'image/jpeg'
                 return r1
         else:
