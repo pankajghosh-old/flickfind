@@ -21,8 +21,9 @@ def api():
 
 @app.route('/links')
 def links():
-	r = requests.get('http://www.myapifilms.com/imdb?title=dog&exactFilter=0&limit=10')
-	r1 = flask.make_response( r.text)
+        title = flask.request.args.get('title','gorilla')
+        r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
+	r1 = flask.make_response(r.text)
 	# r1 = flask.make_response( json.loads(r.text) )
 	r1.mimetype = 'application/json'
 	return r1
