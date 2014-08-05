@@ -7,6 +7,7 @@ from flask import Flask
 
 app = Flask(__name__)
 cache = {}
+imgcache = {}
 
 @app.route('/')
 def hello():
@@ -19,6 +20,18 @@ def api():
 	r = flask.make_response( data )
 	r.mimetype = 'application/json'
 	return r
+
+@app.route('/img')
+def img():
+        global imgcache
+        l = flask.request.args.get('url',None)
+        if l:
+                c = requests.get(l)
+                r1 = flask.make_response(c.content)
+                r1.mimetype = 'image/jpeg'
+                return r1
+        else:
+                return "provide parameter: url"
 
 @app.route('/links')
 def links():
