@@ -41,7 +41,11 @@ def links():
                 rr = cache[title]
         else:
                 r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
-                rr = r.text
+                rc = r.text
+                j = json.loads(rc)
+                for jj in j:
+                        jj['urlPoster'] = '/img?url='+jj['urlPoster']
+                rr = json.dumps(j)
                 cache[title] = rr
 	r1 = flask.make_response(rr)
 	r1.mimetype = 'application/json'
