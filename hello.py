@@ -72,11 +72,19 @@ def links():
 @app.route('/terms')
 def terms():
 	all_terms_dict = [{'term':term.term} for term in SearchTerms.query.all()]
-	print all_terms_dict
+	# print all_terms_dict
 	r1 = flask.make_response(json.dumps(all_terms_dict))
 	r1.mimetype = 'application/json'
 	return r1
 
+@app.route('/addsearchterm', methods = ['POST'])
+def addsearchterm():
+	new_term = flask.request.args.get('term',None)
+	if new_term:
+		new_term_obj = SearchTerms(new_term)
+		db.session.add(new_term_obj)
+		db.session.commit()
+	return 'OK'
 
 if __name__ == '__main__':
     app.run(debug=True)

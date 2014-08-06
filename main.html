@@ -37,9 +37,24 @@
 		});
 	}
 
+	function addSearchTerm(param){
+		var url = "/addsearchterm"+"?term="+param
+		console.log(url)
+		$.post(url, function(){
+			getSearchTerms();
+		});
+
+	}
+
 	$( document ).ready(function() {
 		getlinks("shawshank");
 		getSearchTerms();	
+
+		$('#addsearchtermbutton').click(function(){
+			var searchterm = $('#addsearchtermtextbox').val();
+			console.log('search term '+searchterm);
+			addSearchTerm(searchterm);
+		});
 
 		$('body').on("click", ".btn", function( e ) {
 		// console.log('clicked '+e);
@@ -58,6 +73,10 @@
 	</head>
 	<body>
 	<div id="selection_buttons">Getting search terms...</div>
+	<div style="padding:16px;">
+		Add a search term : <input id="addsearchtermtextbox" type="textbox" value=""></input>
+		<button id="addsearchtermbutton">Click Me</button>
+	</div>
 	<div id="d1">loading...</div>
 	</body>
 	</html>
