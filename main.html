@@ -21,17 +21,35 @@
 		});
 	}
 
+	function getSearchTerms() {
+		$.getJSON( "/terms", function( data ) {
+			var h = "";
+
+			data.forEach(function(entry) {
+
+			var term = entry["term"];
+			// console.log('Adding term:'+term);
+
+			h += "<a class='btn btn-default'>"+term+"</a>";
+			});
+
+			$("#selection_buttons").html(h);
+		});
+	}
+
 	$( document ).ready(function() {
 		getlinks("shawshank");
+		getSearchTerms();	
 
-		$( ".btn" ).click(function( e ) {
+		$('body').on("click", ".btn", function( e ) {
+		// console.log('clicked '+e);
 		var param = $(e.target).text();
 		$('#selection_buttons').find('.btn-success').removeClass("btn-success");
 		$(e.target).addClass("btn btn-success");
 
 		h = "loading..."
 		$("#d1").html(h);
-		
+
 		getlinks(param);
 	});
 	});
@@ -39,12 +57,7 @@
 	</script>
 	</head>
 	<body>
-	<div id="selection_buttons">
-	<a class="btn btn-default">Dog</a>
-	<a class="btn btn-default">Cat</a>
-	<a class="btn btn-default">cafe</a>
-	<a class="btn btn-default">paris</a>
-	</div>
+	<div id="selection_buttons">Getting search terms...</div>
 	<div id="d1">loading...</div>
 	</body>
 	</html>

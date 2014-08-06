@@ -69,5 +69,14 @@ def links():
 	r1.mimetype = 'application/json'
 	return r1
 
+@app.route('/terms')
+def terms():
+	all_terms_dict = [{'term':term.term} for term in SearchTerms.query.all()]
+	print all_terms_dict
+	r1 = flask.make_response(json.dumps(all_terms_dict))
+	r1.mimetype = 'application/json'
+	return r1
+
+
 if __name__ == '__main__':
     app.run(debug=True)
