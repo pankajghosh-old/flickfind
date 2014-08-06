@@ -12,6 +12,16 @@ db = SQLAlchemy(app)
 cache = {}
 imgcache = {}
 
+class SearchTerms(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	term = db.Column(db.String(80))
+
+	def __init__(self, term):
+		self.term = term
+	
+	def __repr__(self):
+		return '<Term %r>' % self.term
+
 @app.route('/')
 def hello():
 	# return "dog"
