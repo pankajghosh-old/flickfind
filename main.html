@@ -37,27 +37,17 @@
 		});
 	}
 
-	function addSearchTerm(param){
-		var url = "/addsearchterm"+"?term="+param
+	function addSearchTermButtonClicked(){
+		var searchterm = $('#addsearchtermtextbox').val();
+		console.log('search term '+searchterm);
+		var url = "/addsearchterm"+"?term="+searchterm
 		console.log(url)
 		$.post(url, function(){
 			getSearchTerms();
-		});
-
+		});				
 	}
 
-	$( document ).ready(function() {
-		getlinks("shawshank");
-		getSearchTerms();	
-
-		$('#addsearchtermbutton').click(function(){
-			var searchterm = $('#addsearchtermtextbox').val();
-			console.log('search term '+searchterm);
-			addSearchTerm(searchterm);
-		});
-
-		$('body').on("click", ".btn", function( e ) {
-		// console.log('clicked '+e);
+	function searchByTerm(e){
 		var param = $(e.target).text();
 		$('#selection_buttons').find('.btn-success').removeClass("btn-success");
 		$(e.target).addClass("btn btn-success");
@@ -65,9 +55,19 @@
 		h = "loading..."
 		$("#d1").html(h);
 
-		getlinks(param);
-	});
-	});
+		getlinks(param);		
+	}
+
+	function documentIsReady(){
+		getlinks("shawshank");
+		getSearchTerms();	
+
+		$('#addsearchtermbutton').click(addSearchTermButtonClicked);
+
+		$('body').on("click", ".btn", searchByTerm);
+	}
+
+	$( document ).ready(documentIsReady);
 
 	</script>
 	</head>
