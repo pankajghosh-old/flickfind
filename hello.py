@@ -52,19 +52,22 @@ def img():
 
 @app.route('/links')
 def links():
-        global cache
-        title = flask.request.args.get('title','gorilla')
-        if (title in cache) and (len(cache[title]) > 10):
-                rr = cache[title]
-        else:
-                r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
-                rc = r.text
-                j = json.loads(rc)
-                for jj in j:
-            		if jj['urlPoster']:
-	            		jj['urlPoster'] = '/img?url='+jj['urlPoster']
-                rr = json.dumps(j)
-                cache[title] = rr
+    global cache
+    title = flask.request.args.get('title','gorilla')
+	print 'fetching links for title: ', title
+    if (title in cache) and (len(cache[title]) > 10):
+        rr = cache[title]
+        print 'using cache to get links for title: ', title
+    else:
+		print 'cache hit miss. getting links from imdb for title: ', title    		
+        r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
+        rc = r.text
+        j = json.loads(rc)
+        for jj in j:
+    		if jj['urlPoster']:
+        		jj['urlPoster'] = '/img?url='+jj['urlPoster']
+        rr = json.dumps(j)
+        cache[title] = rr
 	r1 = flask.make_response(rr)
 	r1.mimetype = 'application/json'
 	return r1
