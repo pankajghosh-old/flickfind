@@ -80,7 +80,7 @@ def terms():
 @app.route('/addsearchterm', methods = ['POST'])
 def addsearchterm():
 	new_term = flask.request.args.get('term',None)
-	if new_term:
+	if new_term and not SearchTerms.query.filter_by(term=new_term).count():
 		new_term_obj = SearchTerms(new_term)
 		db.session.add(new_term_obj)
 		db.session.commit()
