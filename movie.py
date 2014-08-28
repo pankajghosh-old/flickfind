@@ -17,7 +17,7 @@ class MoviePosterResource(Resource):
 	def get(self, url):
 		pass
 
-	def put(self, url)
+	def put(self, url):
 		poster = requests.get(url).content
 		new_poster_obj = MoviePoster(url, poster)
 		db.session.add(new_poster_obj)
