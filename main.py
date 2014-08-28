@@ -4,10 +4,12 @@ import json
 import requests
 import flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.restful import Resource, Api
 
 app = flask.Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
+api = Api(app)
 
 cache = {}
 imgcache = {}
@@ -22,9 +24,7 @@ class SearchTerms(db.Model):
 	def __repr__(self):
 		return '<Term %r>' % self.term
 
-class Movie(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	poster = db.Column(db.Binary)
+
 
 @app.route('/')
 def hello():
