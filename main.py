@@ -4,55 +4,44 @@ import json
 import requests
 import flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.restful import Resource, Api
 
 app = flask.Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 db = SQLAlchemy(app)
-api = Api(app)
 
 cache = {}
-imgcache = {}
 
-class SearchTerms(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
-	term = db.Column(db.String(80))
-
-	def __init__(self, term):
-		self.term = term
-	
-	def __repr__(self):
-		return '<Term %r>' % self.term
-
-
+from movie import setup_resources
+setup_resources(app)
 
 @app.route('/')
 def hello():
 	# return "dog"
 	return open("main.html", 'r').read()
 
-@app.route('/api')
-def api():
+@app.route('/ping')
+def ping():
 	data = json.dumps({"a":"b"})
 	r = flask.make_response( data )
 	r.mimetype = 'application/json'
 	return r
 
-@app.route('/img')
-def img():
-        global imgcache
-        l = flask.request.args.get('url',None)
-        if l:
-                if l in imgcache:
-                        c = imgcache[l]
-                else:
-                        c = requests.get(l).content
-                        imgcache[l] = c
-                r1 = flask.make_response(c)
-                r1.mimetype = 'image/jpeg'
-                return r1
-        else:
-                return "provide parameter: url"
+# imgcache = {}
+# @app.route('/img')
+# def img():
+#         global imgcache
+#         l = flask.request.args.get('url',None)
+#         if l:
+#                 if l in imgcache:
+#                         c = imgcache[l]
+#                 else:
+#                         c = requests.get(l).content
+#                         imgcache[l] = c
+#                 r1 = flask.make_response(c)
+#                 r1.mimetype = 'image/jpeg'
+#                 return r1
+#         else:
+#                 return "provide parameter: url"
 
 @app.route('/links')
 def links():
@@ -69,7 +58,8 @@ def links():
 		j = json.loads(rc)
 		for jj in j:
 			if jj['urlPoster']:
-				jj['urlPoster'] = '/img?url='+jj['urlPoster']
+				print 'url', jj['urlPoster']
+				jj['urlPoster'] = '/movie_poster?url='+jj['urlPoster']
 		rr = json.dumps(j)
 		cache[title] = rr
 	r1 = flask.make_response(rr)
@@ -78,6 +68,8 @@ def links():
 
 @app.route('/terms')
 def terms():
+	from model import SearchTerms, MoviePoster
+
 	all_terms_dict = [{'term':term.term} for term in SearchTerms.query.all()]
 	# print all_terms_dict
 	r1 = flask.make_response(json.dumps(all_terms_dict))
@@ -86,6 +78,8 @@ def terms():
 
 @app.route('/addsearchterm', methods = ['POST'])
 def addsearchterm():
+	from model import SearchTerms, MoviePoster
+
 	new_term = flask.request.args.get('term',None)
 	if new_term and not SearchTerms.query.filter_by(term=new_term).count():
 		new_term_obj = SearchTerms(new_term)
