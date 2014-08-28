@@ -39,9 +39,9 @@
 
 	function addSearchTermButtonClicked(){
 		var searchterm = $('#addsearchtermtextbox').val();
-		console.log('search term '+searchterm);
+		// console.log('search term '+searchterm);
 		var url = "/addsearchterm"+"?term="+searchterm
-		console.log(url)
+		// console.log(url)
 		$.post(url, function(){
 			getSearchTerms();
 		});				
