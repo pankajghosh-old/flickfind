@@ -11,14 +11,14 @@ class MoviePosterResource(Resource):
 		from main import db
 		args = parser.parse_args()
 		url = args['url']
-		print 'MoviePosterResource get', url
+		# print 'MoviePosterResource get', url
 		rows = db.session.query(MoviePoster).filter(MoviePoster.url == url)
 		if rows.count():
-			print 'found url in database', rows.count()
+			# print 'found url in database', rows.count()
 			movie_poster = rows.first()
 			poster = movie_poster.poster
 		else:
-			print 'did not find url in database', url
+			# print 'did not find url in database', url
 			poster = self._get_poster_and_insert_into_db(url)
 		response = flask.make_response(poster)
 		response.mimetype = 'image/jpeg'
@@ -28,7 +28,7 @@ class MoviePosterResource(Resource):
 	def put(self):
 		args = parser.parse_args()
 		url = args['url']
-		print 'MoviePosterResource put', url
+		# print 'MoviePosterResource put', url
 		return self._get_poster_and_insert_into_db(url)
 
 	def _get_poster_and_insert_into_db(self, url):

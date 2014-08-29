@@ -16,7 +16,6 @@ setup_resources(app)
 
 @app.route('/')
 def hello():
-	# return "dog"
 	return open("main.html", 'r').read()
 
 @app.route('/ping')
@@ -25,23 +24,6 @@ def ping():
 	r = flask.make_response( data )
 	r.mimetype = 'application/json'
 	return r
-
-# imgcache = {}
-# @app.route('/img')
-# def img():
-#         global imgcache
-#         l = flask.request.args.get('url',None)
-#         if l:
-#                 if l in imgcache:
-#                         c = imgcache[l]
-#                 else:
-#                         c = requests.get(l).content
-#                         imgcache[l] = c
-#                 r1 = flask.make_response(c)
-#                 r1.mimetype = 'image/jpeg'
-#                 return r1
-#         else:
-#                 return "provide parameter: url"
 
 @app.route('/links')
 def links():
@@ -71,7 +53,6 @@ def terms():
 	from model import SearchTerms, MoviePoster
 
 	all_terms_dict = [{'term':term.term} for term in SearchTerms.query.all()]
-	# print all_terms_dict
 	r1 = flask.make_response(json.dumps(all_terms_dict))
 	r1.mimetype = 'application/json'
 	return r1
