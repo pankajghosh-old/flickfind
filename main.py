@@ -38,15 +38,25 @@ def links():
 		r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
 		rc = r.text
 		j = json.loads(rc)
+		return_list = []
 		for jj in j:
 			if jj['urlPoster']:
-				print 'url', jj['urlPoster']
+				# print 'url', jj['urlPoster']
 				jj['urlPoster'] = '/movie_poster?url='+jj['urlPoster']
-		rr = json.dumps(j)
+				return_list.append(jj)
+		rr = json.dumps(return_list)
 		cache[title] = rr
 	r1 = flask.make_response(rr)
 	r1.mimetype = 'application/json'
 	return r1
+
+# def get_imdb_rating(movie_url):
+# 	print 'getting rating for movie', movie_url
+# 	imdb_id = movie_url.split('/')[-1]
+# 	omdb_url = "http://www.omdbapi.com/?i=%s&t="%imdb_id
+# 	res = json.loads(requests.get(omdb_url).content)
+# 	return res['imdbRating']
+
 
 @app.route('/terms')
 def terms():

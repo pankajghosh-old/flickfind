@@ -7,16 +7,19 @@
 		var url = "/links"+"?title="+param
 		console.log(url)
 		$.getJSON( url, function( data ) {
-			var h = "";
+			var h = '<div class="row">';
 
 			data.forEach(function(entry) {
 
-			var poster = entry["urlPoster"];
-			var link = entry["urlIMDB"];
+				var poster = entry["urlPoster"];
+				var link = entry["urlIMDB"];
+				var rating = entry["rating"]
+				var title = entry["title"]
 
-			h += "<a href='"+link+"'><img src='"+poster+"'></a>"
+				h += '<div class="col-sm-6 col-md-4"><div class="thumbnail"><img src="'+poster+'"><div class="caption"><p class="bg-primary"><a href="'+link+'" class="btn btn-primary" role="button">'+title+'</a><span class="badge">'+rating+'</span></p></div></div></div>'
 			});
 
+			h+= '</div>'
 			$("#d1").html(h);
 		});
 	}

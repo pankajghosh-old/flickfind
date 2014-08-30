@@ -6,6 +6,7 @@ def get_imdb_rating(movie_url):
 	res = json.loads(requests.get(omdb_url).content)
 	print res['imdbRating']
 
+
 if __name__ == '__main__':
 	url = "http://www.imdb.com/title/tt0111161"
 	get_imdb_rating(url)
