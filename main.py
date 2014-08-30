@@ -1,18 +1,12 @@
-import os
 import json
 
 import requests
 import flask
-from flask.ext.sqlalchemy import SQLAlchemy
-
-app = flask.Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-db = SQLAlchemy(app)
 
 cache = {}
 
-from movie import setup_resources
-setup_resources(app)
+from init_app import initialize_app
+app = initialize_app()
 
 @app.route('/')
 def hello():
