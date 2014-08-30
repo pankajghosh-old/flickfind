@@ -25,7 +25,7 @@
 	}
 
 	function getSearchTerms() {
-		$.getJSON( "/terms", function( data ) {
+		$.getJSON( "/search_terms", function( data ) {
 			var h = "";
 
 			data.forEach(function(entry) {
@@ -43,7 +43,7 @@
 	function addSearchTermButtonClicked(){
 		var searchterm = $('#addsearchtermtextbox').val();
 		// console.log('search term '+searchterm);
-		var url = "/addsearchterm"+"?term="+searchterm
+		var url = "/search_terms"+"?term="+searchterm
 		// console.log(url)
 		$.post(url, function(){
 			getSearchTerms();

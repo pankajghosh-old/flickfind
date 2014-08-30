@@ -44,33 +44,5 @@ def links():
 	r1.mimetype = 'application/json'
 	return r1
 
-# def get_imdb_rating(movie_url):
-# 	print 'getting rating for movie', movie_url
-# 	imdb_id = movie_url.split('/')[-1]
-# 	omdb_url = "http://www.omdbapi.com/?i=%s&t="%imdb_id
-# 	res = json.loads(requests.get(omdb_url).content)
-# 	return res['imdbRating']
-
-
-@app.route('/terms')
-def terms():
-	from model import SearchTerms, MoviePoster
-
-	all_terms_dict = [{'term':term.term} for term in SearchTerms.query.all()]
-	r1 = flask.make_response(json.dumps(all_terms_dict))
-	r1.mimetype = 'application/json'
-	return r1
-
-@app.route('/addsearchterm', methods = ['POST'])
-def addsearchterm():
-	from model import SearchTerms, MoviePoster
-
-	new_term = flask.request.args.get('term',None)
-	if new_term and not SearchTerms.query.filter_by(term=new_term).count():
-		new_term_obj = SearchTerms(new_term)
-		db.session.add(new_term_obj)
-		db.session.commit()
-	return 'OK'
-
 if __name__ == '__main__':
     app.run(debug=True)

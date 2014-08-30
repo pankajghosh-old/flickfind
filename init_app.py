@@ -4,8 +4,9 @@ from flask.ext.restful import Api
 
 def setup_resources(app):
 	api = Api(app)
-	from movie import MoviePosterResource
+	from movie import MoviePosterResource, SearchTermsResource
 	api.add_resource(MoviePosterResource, '/movie_poster')
+	api.add_resource(SearchTermsResource, '/search_terms')
 
 def initialize_app():
 	from model import db

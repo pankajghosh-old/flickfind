@@ -1,4 +1,5 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+import requests
 
 db=None
 
@@ -48,3 +49,13 @@ class SearchTerms(db.Model):
 	def __repr__(self):
 		return '<Term %r>' % self.term
 
+
+	def get():
+		pass
+
+	@classmethod
+	def post(cls, new_term):
+		if new_term and not SearchTerms.query.filter_by(term=new_term).count():
+			new_term_obj = SearchTerms(new_term)
+			db.session.add(new_term_obj)
+			db.session.commit()
