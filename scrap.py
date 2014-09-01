@@ -22,6 +22,9 @@ def test_external_api_by_search_term(search_term):
 	res = do_search_from_rottentomatoes(search_term)
 	print pformat(res)
 
+def create_tables():
+	pass
+
 if __name__ == '__main__':
 	# url = "http://www.imdb.com/title/tt0111161"
 	# get_imdb_rating(url)

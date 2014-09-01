@@ -4,7 +4,7 @@
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>
 	function getlinks(param) {
-		var url = "/links"+"?title="+param
+		var url = "/search_results"+"?search_term="+param
 		console.log(url)
 		$.getJSON( url, function( data ) {
 			var h = '<div class="row">';

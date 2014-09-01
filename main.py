@@ -1,14 +1,29 @@
 import json
-
+import os
+from flask.ext.restful import Api
 import requests
 import flask
 
-from external_api import do_search_from_myapi_films, do_search_from_rottentomatoes
+def setup_resources(app):
+	api = Api(app)
+	from movie import MoviePosterResource, SearchTermsResource, SearchResultsResource
+	api.add_resource(MoviePosterResource, '/movie_poster')
+	api.add_resource(SearchTermsResource, '/search_terms')
+	api.add_resource(SearchResultsResource, '/search_results')
 
-cache = {}
+def initialize_app():
+	from model import db
+	app = flask.Flask(__name__)
+	app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+	db.app = app
+	db.init_app(app)
 
-from init_app import initialize_app
+	#create any new tables
+	db.create_all()
+	return app
+
 app = initialize_app()
+setup_resources(app)
 
 @app.route('/')
 def hello():
@@ -20,23 +35,6 @@ def ping():
 	r = flask.make_response( data )
 	r.mimetype = 'application/json'
 	return r
-
-@app.route('/links')
-def links():
-	global cache
-	title = flask.request.args.get('title','gorilla')
-	print 'fetching links for title: ', title
-	if (title in cache) and (len(cache[title]) > 10):
-		rr = cache[title]
-		print 'using cache to get links for title: ', title
-	else:
-		print 'cache hit miss. getting links from imdb for title: ', title    		
-		return_list = do_search_from_rottentomatoes(title)
-		rr = json.dumps(return_list)
-		cache[title] = rr
-	r1 = flask.make_response(rr)
-	r1.mimetype = 'application/json'
-	return r1
 
 if __name__ == '__main__':
     app.run(debug=True)

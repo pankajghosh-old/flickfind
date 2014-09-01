@@ -1,6 +1,6 @@
 from flask.ext.restful import Resource, reqparse
 import flask
-from model import MoviePoster, SearchTerms
+from model import MoviePoster, SearchTerms, SearchResults
 import json
 
 class MoviePosterResource(Resource):
@@ -40,7 +40,7 @@ class SearchTermsResource(Resource):
 	request_parser = property(_get_request_parser)
 
 	def get(self):
-		all_terms_dict = [{'term':term.term} for term in SearchTerms.query.all()]
+		all_terms_dict = [{'term':term.term} for term in SearchTerms.get_all()]
 		response = flask.make_response(json.dumps(all_terms_dict))
 		response.mimetype = 'application/json'
 		return response
@@ -53,3 +53,21 @@ class SearchTermsResource(Resource):
 		return 'OK'
 
 
+class SearchResultsResource(Resource):
+	_parser = None
+
+	def _get_request_parser(self):
+		if not self._parser:
+			self._parser = reqparse.RequestParser()
+			self._parser.add_argument('search_term', type=str)
+		return self._parser
+	request_parser = property(_get_request_parser)
+
+	def get(self):
+		args = self.request_parser.parse_args()
+		search_term = args['search_term']
+
+		search_results = SearchResults.get(search_term)
+		response = flask.make_response(search_results)
+		response.mimetype = 'application/json'
+		return response
