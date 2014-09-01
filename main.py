@@ -3,6 +3,8 @@ import json
 import requests
 import flask
 
+from external_api import do_search_from_myapi_films, do_search_from_rottentomatoes
+
 cache = {}
 
 from init_app import initialize_app
@@ -29,15 +31,7 @@ def links():
 		print 'using cache to get links for title: ', title
 	else:
 		print 'cache hit miss. getting links from imdb for title: ', title    		
-		r = requests.get('http://www.myapifilms.com/imdb?title=%s&exactFilter=0&limit=10'%(title,))
-		rc = r.text
-		j = json.loads(rc)
-		return_list = []
-		for jj in j:
-			if jj['urlPoster']:
-				# print 'url', jj['urlPoster']
-				jj['urlPoster'] = '/movie_poster?url='+jj['urlPoster']
-				return_list.append(jj)
+		return_list = do_search_from_rottentomatoes(title)
 		rr = json.dumps(return_list)
 		cache[title] = rr
 	r1 = flask.make_response(rr)

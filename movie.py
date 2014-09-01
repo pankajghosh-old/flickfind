@@ -3,13 +3,18 @@ import flask
 from model import MoviePoster, SearchTerms
 import json
 
-parser = reqparse.RequestParser()
-parser.add_argument('url', type=str)
-
-
 class MoviePosterResource(Resource):
+	_parser = None
+
+	def _get_request_parser(self):
+		if not self._parser:
+			self._parser = reqparse.RequestParser()
+			self._parser.add_argument('url', type=str)
+		return self._parser
+	request_parser = property(_get_request_parser)
+
 	def get(self):
-		args = parser.parse_args()
+		args = self.request_parser.parse_args()
 		url = args['url']
 		# print 'MoviePosterResource get', url
 		poster = MoviePoster.get(url)
@@ -19,15 +24,21 @@ class MoviePosterResource(Resource):
 
 
 	def put(self):
-		args = parser.parse_args()
+		args = self.request_parser.parse_args()
 		url = args['url']
 		# print 'MoviePosterResource put', url
 		return MoviePoster.put(url)
 
-st_parser = reqparse.RequestParser()
-st_parser.add_argument('term', type=str)
-
 class SearchTermsResource(Resource):
+	_parser = None
+
+	def _get_request_parser(self):
+		if not self._parser:
+			self._parser = reqparse.RequestParser()
+			self._parser.add_argument('term', type=str)
+		return self._parser
+	request_parser = property(_get_request_parser)
+
 	def get(self):
 		all_terms_dict = [{'term':term.term} for term in SearchTerms.query.all()]
 		response = flask.make_response(json.dumps(all_terms_dict))
@@ -35,7 +46,7 @@ class SearchTermsResource(Resource):
 		return response
 
 	def post(self):
-		args = st_parser.parse_args()
+		args = self.request_parser.parse_args()
 		new_term = args['term']
 
 		SearchTerms.post(new_term)
