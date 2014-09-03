@@ -13,6 +13,11 @@ def get_movie_list_from_rotten_tomatoes():
 	res = json.loads(requests.get(request_url).content)
 	print 'results count', res['total']
 	for movie_dict in res['movies']:
+		print 'ratings', movie_dict['ratings']
+		print 'critics score', movie_dict['ratings'].get('critics_score', 0)
+		print 'critics rating', movie_dict['ratings'].get('critics_rating', None)
+		print 'audience score', movie_dict['ratings'].get('audience_score', 0)
+		print 'audience rating', movie_dict['ratings'].get('audience_rating', None)
 		print 'title', movie_dict['title']
 		print 'imdb_id', movie_dict.get('alternate_ids', {}).get('imdb', None)
 		print 'detailed url poster', movie_dict.get('posters', {}).get('detailed', None)
