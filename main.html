@@ -16,15 +16,30 @@
 				var imdb_rating = entry["imdb_rating"]
 				var critics_score = entry["critics_score"]
 				var audience_score = entry["audience_score"]
+				var critics_rating = entry["critics_rating"]
+				var audience_rating = entry["audience_rating"]
+
 				var title = entry["title"]
 
-				h += '<div class="col-md-2"><div class="thumbnail"><img src="'+poster+'"><div class="caption"><p class="bg-success"><a href="'+link+'" class="btn btn-primary" role="button" target = "_blank">'+title+'</a></p><p>'
-				// h+= '<img src="/assets/imdb_rating.png" alt="HTML tutorial">'
-				// h+= '<img src="{{ url_for("assets", filename="assets/imdb_rating.png") }}"'
-				h+='<span class="badge">'+imdb_rating+'</span>'
-				h+='<span class="badge">'+critics_score+'</span>'
-				h+='<span class="badge">'+audience_score+'</span>'
-				h+= '</p></div></div></div>'
+				h += '<div class="col-md-2"><div class="thumbnail"><img src="'+poster+'"><div class="caption"><p class="bg-success"><a href="'+link+'" class="btn btn-primary" role="button" target = "_blank">'+title+'</a></p>'
+
+				if (imdb_rating > 0)
+					h+= '<p><img src="/assets/imdb_rating.png" width="42" height="42"><span class="badge">'+imdb_rating+'</span></p>'
+
+				if (critics_score > 0)
+					if (critics_rating === "Certified Fresh")
+						h+='<p><img src="/assets/certified_fresh.png" width="42" height="42"><span class="badge">'+critics_score+'</span></p>'
+					else if (critics_rating === "Fresh")
+						h+='<p><img src="/assets/fresh.png" width="42" height="42"><span class="badge">'+critics_score+'</span></p>'
+					else
+						h+='<p><img src="/assets/rotten.png" width="42" height="42"><span class="badge">'+critics_score+'</span></p>'
+
+				if (audience_score > 0)
+					if (audience_rating === "Spilled")
+						h+='<p><img src="/assets/spilled.png" width="42" height="42"><span class="badge">'+audience_score+'</span></p>'
+					else
+						h+='<p><img src="/assets/popcorn.png" width="42" height="42"><span class="badge">'+audience_score+'</span></p>'
+				h+= '</div></div></div>'
 			});
 
 			h+= '</div>'

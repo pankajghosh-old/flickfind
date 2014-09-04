@@ -13,7 +13,7 @@ def setup_resources(app):
 
 def initialize_app():
 	from model import db
-	app = flask.Flask(__name__)
+	app = flask.Flask(__name__, static_url_path = "/assets", static_folder = "assets")
 	app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 	db.app = app
 	db.init_app(app)
