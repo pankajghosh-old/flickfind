@@ -49,7 +49,7 @@ def do_search_from_rottentomatoes(search_term):
 		if imdb_id and (critics_rating or audience_rating):
 			new_movie_dict['urlPoster'] = '/movie_poster?url='+poster_url
 			new_movie_dict['urlIMDB'] = get_imdb_url_from_id(imdb_id)
-			new_movie_dict['rating'] = get_imdb_rating(imdb_id)
+			new_movie_dict['imdb_rating'] = get_imdb_rating(imdb_id)
 			new_movie_dict['title'] = request_movie_dict['title']
 			new_movie_dict['critics_score'] = critics_score
 			new_movie_dict['critics_rating'] = critics_rating

@@ -36,5 +36,12 @@ def ping():
 	r.mimetype = 'application/json'
 	return r
 
+# @app.route('/assets/<path:path>')
+# def static_proxy(path):
+#     # send_static_file will guess the correct MIME type
+#     print os.path.join('assets', path)
+#     print os.getcwd()
+#     return app.send_static_file(os.path.join('assets', path))
+
 if __name__ == '__main__':
     app.run(debug=True)
