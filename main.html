@@ -25,26 +25,26 @@
 				var title = entry["title"]
 
 
-				h += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail"><img src="'+poster+'"><div class="caption"><p class="bg-success" align="center"><a href="'+link+'" class="btn btn-primary" role="button" target = "_blank">'+title+'</a></p>'
+				h += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail"><img src="'+poster+'" width="90" height="90"><div class="caption"><p class="bg-success" align="center"><a href="'+link+'" class="btn btn-primary" role="button" target = "_blank">'+title+'</a></p>'
 
 				h+= '<p align="center">'
 				if (imdb_rating > 0)
 
-					h+= '<img src="/assets/imdb_rating.png" width="60" height="60"><span class="badge">'+imdb_rating+'</span>'
+					h+= '<img src="/assets/imdb_rating.png" width="30" height="30"><span class="badge">'+imdb_rating+'</span>'
 
 				if (critics_score > 0)
 					if (critics_rating === "Certified Fresh")
-						h+='<img src="/assets/certified_fresh.png" width="42" height="42"><span class="badge">'+critics_score+'</span>'
+						h+='<img src="/assets/certified_fresh.png" width="30" height="30"><span class="badge">'+critics_score+'</span>'
 					else if (critics_rating === "Fresh")
-						h+='<img src="/assets/fresh.png" width="42" height="42"><span class="badge">'+critics_score+'</span>'
+						h+='<img src="/assets/fresh.png" width="30" height="30"><span class="badge">'+critics_score+'</span>'
 					else
-						h+='<img src="/assets/rotten.png" width="42" height="42"><span class="badge">'+critics_score+'</span>'
+						h+='<img src="/assets/rotten.png" width="30" height="30"><span class="badge">'+critics_score+'</span>'
 
 				if (audience_score > 0)
 					if (audience_rating === "Spilled")
-						h+='<img src="/assets/spilled.png" width="42" height="42"><span class="badge">'+audience_score+'</span>'
+						h+='<img src="/assets/spilled.png" width="30" height="30"><span class="badge">'+audience_score+'</span>'
 					else
-						h+='<img src="/assets/popcorn.png" width="42" height="42"><span class="badge">'+audience_score+'</span>'
+						h+='<img src="/assets/popcorn.png" width="30" height="30"><span class="badge">'+audience_score+'</span>'
 				h+= '</p>'
 				h+= '</div></div></div>'
 				if (column_count % 4 == 3)
