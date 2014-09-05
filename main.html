@@ -7,9 +7,12 @@
 		var url = "/search_results"+"?search_term="+param
 		console.log(url)
 		$.getJSON( url, function( data ) {
-			var h = '<div class="container"><div class="row">';
+			var h = '<div class="container">';
+			var column_count = 0
 
 			data.forEach(function(entry) {
+				if (column_count % 4 == 0)
+					h+= '<div class="row">'
 
 				var poster = entry["urlPoster"];
 				var link = entry["urlIMDB"];
@@ -21,12 +24,13 @@
 
 				var title = entry["title"]
 
-				h += '<div class="col-md-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail"><img src="'+poster+'"><div class="caption"><p class="bg-success" align="center"><a href="'+link+'" class="btn btn-primary" role="button" target = "_blank">'+title+'</a></p>'
+
+				h += '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6"><div class="thumbnail"><img src="'+poster+'"><div class="caption"><p class="bg-success" align="center"><a href="'+link+'" class="btn btn-primary" role="button" target = "_blank">'+title+'</a></p>'
 
 				h+= '<p align="center">'
 				if (imdb_rating > 0)
 
-					h+= '<img src="/assets/imdb_rating.png" width="42" height="42"><span class="badge">'+imdb_rating+'</span>'
+					h+= '<img src="/assets/imdb_rating.png" width="60" height="60"><span class="badge">'+imdb_rating+'</span>'
 
 				if (critics_score > 0)
 					if (critics_rating === "Certified Fresh")
@@ -43,9 +47,12 @@
 						h+='<img src="/assets/popcorn.png" width="42" height="42"><span class="badge">'+audience_score+'</span>'
 				h+= '</p>'
 				h+= '</div></div></div>'
+				if (column_count % 4 == 3)
+					h+= '</div>'
+				column_count = column_count + 1
 			});
 
-			h+= '</div></div>'
+			h+= '</div>'
 			$("#d1").html(h);
 		});
 	}
