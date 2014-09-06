@@ -59,35 +59,36 @@
 		});
 	}
 
-	function getSearchTerms() {
-		$.getJSON( "/search_terms", function( data ) {
-			var h = "";
+	// function getSearchTerms() {
+	// 	$.getJSON( "/search_terms", function( data ) {
+	// 		var h = "";
 
-			data.forEach(function(entry) {
+	// 		data.forEach(function(entry) {
 
-			var term = entry["term"];
-			// console.log('Adding term:'+term);
+	// 		var term = entry["term"];
+	// 		// console.log('Adding term:'+term);
 
-			h += "<a class='btn btn-default'>"+term+"</a>";
-			});
+	// 		h += "<a class='btn btn-default'>"+term+"</a>";
+	// 		});
 
-			$("#selection_buttons").html(h);
-		});
-	}
+	// 		$("#selection_buttons").html(h);
+	// 	});
+	// }
 
-	function addSearchTermButtonClicked(){
-		var searchterm = $('#addsearchtermtextbox').val();
-		// console.log('search term '+searchterm);
-		var url = "/search_terms"+"?term="+searchterm
-		// console.log(url)
-		$.post(url, function(){
-			getSearchTerms();
-		});				
-	}
+	// function addSearchTermButtonClicked(){
+	// 	var searchterm = $('#addsearchtermtextbox').val();
+	// 	// console.log('search term '+searchterm);
+	// 	var url = "/search_terms"+"?term="+searchterm
+	// 	// console.log(url)
+	// 	$.post(url, function(){
+	// 		getSearchTerms();
+	// 	});				
+	// }
 
 	function searchByTerm(e){
 		var param = $(e.target).text();
-		$('#selection_buttons').find('.btn-success').removeClass("btn-success");
+		console.log('param clicked', param);
+		$('#selection_buttons_react').find('.btn-success').removeClass("btn-success");
 		$(e.target).addClass("btn btn-success");
 
 		h = "loading..."
@@ -97,8 +98,8 @@
 	}
 
 	function documentIsReady(){
-		getSearchTerms();	
-		$('#addsearchtermbutton').click(addSearchTermButtonClicked);
+		// getSearchTerms();	
+		// $('#addsearchtermbutton').click(addSearchTermButtonClicked);
 
 		$('body').on("click", ".btn", searchByTerm);
 	}
@@ -108,22 +109,13 @@
 	</script>
 	</head>
 	<body>
-	<div id="selection_buttons"></div>
+	<div id="selection_buttons_react"></div>
+	<!-- <div id="selection_buttons"></div> -->
 	<div style="padding:16px;">
 		Add a search term : <input id="addsearchtermtextbox" type="textbox" value=""></input>
 		<button id="addsearchtermbutton">Click Me</button>
 	</div>
 	<div id="d1"></div>
-	<script type="text/jsx">
-      /** @jsx React.DOM */
-      React.renderComponent(
-        <h4>Getting search terms...</h4>,
-        document.getElementById('selection_buttons')
-      );
-      React.renderComponent(
-        <h4>click on a search term...</h4>,
-        document.getElementById('d1')
-      );
-    </script>
+	<script type="text/jsx" src="js/main_jxs.js"></script>
 	</body>
 	</html>

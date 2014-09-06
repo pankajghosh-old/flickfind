@@ -13,7 +13,7 @@ def setup_resources(app):
 
 def initialize_app():
 	from model import db
-	app = flask.Flask(__name__, static_url_path = "/assets", static_folder = "assets")
+	app = flask.Flask(__name__, static_url_path = "", static_folder="")
 	app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 	db.app = app
 	db.init_app(app)
@@ -26,8 +26,8 @@ app = initialize_app()
 setup_resources(app)
 
 @app.route('/')
-def hello():
-	return open("main.html", 'r').read()
+def root():
+	return app.send_static_file('main.html')
 
 @app.route('/ping')
 def ping():
@@ -35,13 +35,6 @@ def ping():
 	r = flask.make_response( data )
 	r.mimetype = 'application/json'
 	return r
-
-# @app.route('/assets/<path:path>')
-# def static_proxy(path):
-#     # send_static_file will guess the correct MIME type
-#     print os.path.join('assets', path)
-#     print os.getcwd()
-#     return app.send_static_file(os.path.join('assets', path))
 
 if __name__ == '__main__':
     app.run(debug=True)
