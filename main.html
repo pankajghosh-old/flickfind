@@ -2,6 +2,8 @@
 	<head>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.11.1/JSXTransformer.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.11.1/react.js"></script>
 	<script>
 	function getlinks(param) {
 		var url = "/search_results"+"?search_term="+param
@@ -96,8 +98,6 @@
 
 	function documentIsReady(){
 		getSearchTerms();	
-		// getlinks("shawshank");
-
 		$('#addsearchtermbutton').click(addSearchTermButtonClicked);
 
 		$('body').on("click", ".btn", searchByTerm);
@@ -108,11 +108,22 @@
 	</script>
 	</head>
 	<body>
-	<div id="selection_buttons">Getting search terms...</div>
+	<div id="selection_buttons"></div>
 	<div style="padding:16px;">
 		Add a search term : <input id="addsearchtermtextbox" type="textbox" value=""></input>
 		<button id="addsearchtermbutton">Click Me</button>
 	</div>
-	<div id="d1">click on a search term...</div>
+	<div id="d1"></div>
+	<script type="text/jsx">
+      /** @jsx React.DOM */
+      React.renderComponent(
+        <h4>Getting search terms...</h4>,
+        document.getElementById('selection_buttons')
+      );
+      React.renderComponent(
+        <h4>click on a search term...</h4>,
+        document.getElementById('d1')
+      );
+    </script>
 	</body>
 	</html>
