@@ -3,7 +3,7 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.11.1/JSXTransformer.js"></script>
-	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.11.1/react.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.11.1/react-with-addons.js"></script>
 	<script>
 	function getlinks(param) {
 		var url = "/search_results"+"?search_term="+param
@@ -87,7 +87,7 @@
 
 	function searchByTerm(e){
 		var param = $(e.target).text();
-		console.log('param clicked', param);
+		// console.log('param clicked', param);
 		$('#selection_buttons_react').find('.btn-success').removeClass("btn-success");
 		$(e.target).addClass("btn btn-success");
 
@@ -101,7 +101,7 @@
 		// getSearchTerms();	
 		// $('#addsearchtermbutton').click(addSearchTermButtonClicked);
 
-		$('body').on("click", ".btn", searchByTerm);
+		// $('body').on("click", ".btn", searchByTerm);	
 	}
 
 	$( document ).ready(documentIsReady);
