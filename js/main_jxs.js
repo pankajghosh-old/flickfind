@@ -33,19 +33,30 @@ var SearchTermList = React.createClass({
   },
   handleClick: function(event) {
     this.setState({selectedSearchTerm:event.target.text});
+    searchByTerm(event.target.text);
   }
 });
 
+// var SearchResults = React.createClass({
+//   render: function() {
+//     return (
+//       );
+//   }  
+// });
+
 var SearchTermBox = React.createClass({
   getInitialState: function() {
-    return {data:[{term:"abc"},{term:"bcd"}]};
+    return {
+      searchTermResults:[{term:"abc"},{term:"bcd"}],
+      searchResults:[]
+          };
   },
-  loadCommentsFromServer:function(){
+  loadSearchResultsFromServer:function(){
     $.ajax({
       url: this.props.search_terms_url,
       dataType: 'json',
       success: function(data) {
-        this.setState({data: data});
+        this.setState({searchTermResults: data});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -53,7 +64,7 @@ var SearchTermBox = React.createClass({
     });
   },
   componentDidMount: function() {
-    this.loadCommentsFromServer();
+    this.loadSearchResultsFromServer();
   },
   handleAddSearchTerm:function(){
     var addsearchterm = this.refs.addsearchterm.getDOMNode().value.trim();
@@ -64,7 +75,7 @@ var SearchTermBox = React.createClass({
       type: 'POST',
       data: {term:addsearchterm},
       success: function(data) {
-        this.loadCommentsFromServer();
+        this.loadSearchResultsFromServer();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -74,7 +85,7 @@ var SearchTermBox = React.createClass({
   render: function() {
     return (
       <div className="searchTermForm">
-      <SearchTermList data={this.state.data} />
+      <SearchTermList data={this.state.searchTermResults} />
       <input type="text" placeholder="Say something here..." ref="addsearchterm" />
       <button id="addsearchtermbutton" onClick={this.handleAddSearchTerm}>Add Search Term</button>
       </div>

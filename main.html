@@ -59,12 +59,7 @@
 		});
 	}
 
-	function searchByTerm(e){
-		var param = $(e.target).text();
-		// console.log('param clicked', param);
-		$('#selection_buttons_react').find('.btn-success').removeClass("btn-success");
-		$(e.target).addClass("btn btn-success");
-
+	function searchByTerm(param){
 		h = "loading..."
 		$("#d1").html(h);
 
