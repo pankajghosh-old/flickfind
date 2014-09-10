@@ -37,12 +37,53 @@ var SearchTermList = React.createClass({
   }
 });
 
-// var SearchResults = React.createClass({
-//   render: function() {
-//     return (
-//       );
-//   }  
-// });
+var SearchResultBanner = React.createClass({
+  render:function(){
+      var classes = React.addons.classSet({
+        'col-lg-3': true,
+        'col-md-4': true,
+        'col-sm-6': true,
+        'col-xs-6': true,
+      });
+      return (
+        <div className={classes}>
+          <div className="thumbnail">
+            <img src={this.props.searchResult.urlPoster} width="90" height="90"/>
+            <div className="caption">
+              <p className="bg-success" align="center">
+                <a href={this.props.searchResult.urlIMDB} className="btn btn-primary" role="button" target = "_blank">
+                  {this.props.searchResult.title}
+                </a>
+              </p>
+              <p align="center">
+                <img src="/assets/imdb_rating.png" width="30" height="30">
+                  <span className="badge">{this.props.searchResult.imdb_rating}</span>
+                </img>
+              </p>
+            </div>  
+          </div>
+        </div>
+        );
+  }
+});
+
+var SearchResults = React.createClass({
+  render: function() {
+    var searchResultBanners = this.props.searchResults.map(function (searchResult) {
+      return (
+        <SearchResultBanner searchResult={searchResult} key={searchResult.title}>
+        </SearchResultBanner>
+        );
+    });
+    return (
+      <div className="container">
+        <div className="row">
+          {searchResultBanners}
+        </div>
+      </div>
+      );  
+  }  
+});
 
 var SearchTermBox = React.createClass({
   getInitialState: function() {
@@ -51,7 +92,7 @@ var SearchTermBox = React.createClass({
       searchResults:[]
           };
   },
-  loadSearchResultsFromServer:function(){
+  loadSearchTermsFromServer:function(){
     $.ajax({
       url: this.props.search_terms_url,
       dataType: 'json',
@@ -59,11 +100,25 @@ var SearchTermBox = React.createClass({
         this.setState({searchTermResults: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(this.props.search_terms_url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  loadSearchResultsFromServer:function(){
+    $.ajax({
+      url: this.props.search_results_url,
+      dataType: 'json',
+      data: {search_term:"soccer"},
+      success: function(data) {
+        this.setState({searchResults: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.search_results_url, status, err.toString());
       }.bind(this)
     });
   },
   componentDidMount: function() {
+    this.loadSearchTermsFromServer();
     this.loadSearchResultsFromServer();
   },
   handleAddSearchTerm:function(){
@@ -75,7 +130,7 @@ var SearchTermBox = React.createClass({
       type: 'POST',
       data: {term:addsearchterm},
       success: function(data) {
-        this.loadSearchResultsFromServer();
+        this.loadSearchTermsFromServer();
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -88,13 +143,14 @@ var SearchTermBox = React.createClass({
       <SearchTermList data={this.state.searchTermResults} />
       <input type="text" placeholder="Say something here..." ref="addsearchterm" />
       <button id="addsearchtermbutton" onClick={this.handleAddSearchTerm}>Add Search Term</button>
+      <SearchResults searchResults={this.state.searchResults} />
       </div>
       );
   }
 });
 
 React.renderComponent(
-  <SearchTermBox search_terms_url="search_terms"/>,
+  <SearchTermBox search_terms_url="search_terms" search_results_url="search_results"/>,
   document.getElementById('selection_buttons_react')
   );
 
