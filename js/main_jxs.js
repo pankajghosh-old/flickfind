@@ -1,33 +1,30 @@
 /** @jsx React.DOM */
 var SearchTerm = React.createClass({
-  getInitialState:function(){
-    return {isSelected:false};
-  },
   render: function() {
     var classes = React.addons.classSet({
       'btn': true,
       'btn-default': true,
-      'btn-success': this.state.isSelected,
+      'btn-success': this.props.isSelected,
     });
     return (
-      <a className={classes} parentClickHandle={this.handleSelection}>
+      <a className={classes}>
       {this.props.term}
       </a>
       );
-  },
-  handleSelection: function(){
-    console.log('child received event', term)
   }
 });
 
 var SearchTermList = React.createClass({
+  getInitialState:function(){
+    return {selectedSearchTerm:""};
+  },
   render: function() {
     var searchTermNodes = this.props.data.map(function (searchTerm) {
       return (
-        <SearchTerm term={searchTerm.term}>
+        <SearchTerm term={searchTerm.term} key={searchTerm.term} isSelected={searchTerm.term===this.state.selectedSearchTerm}>
         </SearchTerm>
         );
-    });
+    }.bind(this));
     return (
       <div className="searchTerms" onClick={this.handleClick}>
       {searchTermNodes}
@@ -35,11 +32,7 @@ var SearchTermList = React.createClass({
       );
   },
   handleClick: function(event) {
-    React.Children.forEach(this.props.data, function(child){
-      // console.log(child.props, event.target.text);
-        // child.setState({ isSelected: child.props === event.target.text });
-        child.parentClickHandle();
-      });    
+    this.setState({selectedSearchTerm:event.target.text});
   }
 });
 
