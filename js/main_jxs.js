@@ -45,20 +45,44 @@ var SearchResultBanner = React.createClass({
         'col-sm-6': true,
         'col-xs-6': true,
       });
+      var imdb_rating = this.props.searchResult.imdb_rating;
+      var critics_score = this.props.searchResult.critics_score;
+      var critics_rating = this.props.searchResult.critics_rating;
+      var audience_score = this.props.searchResult.audience_score;
+      var audience_rating = this.props.searchResult.audience_rating;
+
+      var string_element = "";
+      if (imdb_rating > 0){
+        string_element = '<img src="/assets/imdb_rating.png" width="30" height="30"><span class="badge">'+imdb_rating+'</span></img>'        
+      }
+
+      if (critics_score > 0)
+        if (critics_rating === "Certified Fresh")
+          string_element+='<img src="/assets/certified_fresh.png" width="30" height="30"><span class="badge">'+critics_score+'</span></img>'
+        else if (critics_rating === "Fresh")
+          string_element+='<img src="/assets/fresh.png" width="30" height="30"><span class="badge">'+critics_score+'</span></img>'
+        else
+          string_element+='<img src="/assets/rotten.png" width="30" height="30"><span class="badge">'+critics_score+'</span></img>'
+
+      if (audience_score > 0)
+        if (audience_rating === "Spilled")
+          string_element+='<img src="/assets/spilled.png" width="30" height="30"><span class="badge">'+audience_score+'</span></img>'
+        else
+          string_element+='<img src="/assets/popcorn.png" width="30" height="30"><span class="badge">'+audience_score+'</span></img>'
+
+
       return (
         <div className={classes}>
           <div className="thumbnail">
             <img src={this.props.searchResult.urlPoster} width="90" height="90"/>
             <div className="caption">
-              <p className="bg-success" align="center">
-                <a href={this.props.searchResult.urlIMDB} className="btn btn-primary" role="button" target = "_blank">
+              <p className="bg-success">
+                <a href={this.props.searchResult.urlIMDB} className="btn btn-primary center-block" role="button" target = "_blank">
                   {this.props.searchResult.title}
                 </a>
               </p>
-              <p align="center">
-                <img src="/assets/imdb_rating.png" width="30" height="30">
-                  <span className="badge">{this.props.searchResult.imdb_rating}</span>
-                </img>
+              <p>
+                <div className="center-block" dangerouslySetInnerHTML={{__html: string_element}}/>
               </p>
             </div>  
           </div>
