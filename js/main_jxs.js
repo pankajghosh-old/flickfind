@@ -174,12 +174,17 @@ var SearchTermBox = React.createClass({
 });
 
 React.renderComponent(
+  <ReactTypeahead.Tokenizer defaultValue="foo" options={["foobar", "spameggs", "hameggs", "spamfoo", "spam"]} />,
+  document.getElementById("d1")
+);
+
+React.renderComponent(
   <SearchTermBox search_terms_url="search_terms" search_results_url="search_results"/>,
   document.getElementById('selection_buttons_react')
   );
 
-React.renderComponent(
-  <h4>click on a search term...</h4>,
-  document.getElementById('d1')
-  );
+// React.renderComponent(
+//   <h4>click on a search term...</h4>,
+//   document.getElementById('d1')
+//   );
 
