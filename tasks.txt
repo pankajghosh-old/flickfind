@@ -1,3 +1,3 @@
-1. handle error response from rottentomatoes
-2. react.js to render search terms
-3. react.js to render link results
+1. use twitter typeahead library
+2. handle error response from rottentomatoes
+3. 
