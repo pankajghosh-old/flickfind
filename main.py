@@ -29,6 +29,10 @@ setup_resources(app)
 def root():
 	return app.send_static_file('main.html')
 
+@app.route('/search')
+def search():
+	return app.send_static_file('search.html')
+
 @app.route('/ping')
 def ping():
 	data = json.dumps({"a":"b"})
