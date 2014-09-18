@@ -43,22 +43,32 @@ var SearchBox = React.createClass({
 		console.log('componentWillUnmount called');
 	},
 	loadSearchResultsFromServer:function(){
-	$.ajax({
-	  url: this.props.search_results_url,
-	  dataType: 'json',
-	  data: {search_term:this.state.value},
-	  success: function(data) {
-	    this.setState({searchResults: data});
-	  }.bind(this),
-	  error: function(xhr, status, err) {
-	    console.error(this.props.search_results_url, status, err.toString());
-	  }.bind(this)
-	});
+		$.ajax({
+		  url: this.props.search_results_url,
+		  dataType: 'json',
+		  data: {search_term:this.state.value},
+		  success: function(data) {
+		    this.setState({searchResults: data});
+		  }.bind(this),
+		  error: function(xhr, status, err) {
+		    console.error(this.props.search_results_url, status, err.toString());
+		  }.bind(this)
+		});
 	},
 
 	});
 
+var SearchBoxResults = React.createClass({
+	render: function() {
+		return (
+		  <div className="middle input-group-lg">
+		  	<SearchBox search_results_url="search_results"/>
+		  </div>
+		  );	
+	}
+});
+
 React.renderComponent(
-	<SearchBox search_results_url="search_results"/>,
+	<SearchBoxResults/>,
 	document.getElementById('search_div')
 	);
