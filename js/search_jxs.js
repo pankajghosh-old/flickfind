@@ -8,7 +8,9 @@ var SearchBox = React.createClass({
 	},
 	render : function(){
 		return (
-			<input className="typeahead form-control" type="text" placeholder="Enter a search term e.g. soccer"/>
+			<div>
+				<input className="typeahead form-control" type="text" placeholder="Enter a search term e.g. soccer" onChange={this.handleChange}/>
+			</div>
 			);
 	},
 	componentDidMount: function(){
@@ -31,13 +33,10 @@ var SearchBox = React.createClass({
 			name: 'search_terms',
 			displayKey: 'term',		  
 			source: search_terms.ttAdapter()
-		}).on('typeahead:selected', this.onSelected).on('typeahead:autocompleted', this.onAutoCompleted);
+		});
 	},
-	onSelected:function($e, datum){
-		this.props.setSearchTermHandler(datum['term']);
-	},
-	onAutoCompleted:function($e, datum, ds){
-		this.props.setSearchTermHandler(datum['term']);
+	handleChange: function(e){
+		this.props.setSearchTermHandler(e.target.value);
 	},
 	componentWillUnmount:function(){
 		console.log('componentWillUnmount called');
@@ -83,8 +82,11 @@ var SearchBoxResults = React.createClass({
 		this.setState({"searchTerm":searchTerm})
 	},
 	handleSubmit: function(e){
-		console.log('form was submitted');
 		e.preventDefault();
+		if (this.state.searchTerm === ""){
+			console.log("no term to search for");
+			return
+		}
 		this.loadSearchResultsFromServer();
 	},
 	loadSearchResultsFromServer:function(){
