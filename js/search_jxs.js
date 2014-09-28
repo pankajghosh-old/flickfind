@@ -34,10 +34,10 @@ var SearchBox = React.createClass({
 		}).on('typeahead:selected', this.onSelected).on('typeahead:autocompleted', this.onAutoCompleted);
 	},
 	onSelected:function($e, datum){
-		console.log('onSelected');
+		console.log('onSelected', datum['term']);
 	},
 	onAutoCompleted:function($e, datum, ds){
-		console.log('onAutoCompleted');
+		console.log('onAutoCompleted', datum['term']);
 	},
 	componentWillUnmount:function(){
 		console.log('componentWillUnmount called');
@@ -61,10 +61,17 @@ var SearchBox = React.createClass({
 var SearchBoxResults = React.createClass({
 	render: function() {
 		return (
-		  <div className="middle input-group-lg">
+		<div className="middle input-group-lg">
+		  <form className="searchForm" onSubmit={this.handleSubmit}>
 		  	<SearchBox search_results_url="search_results"/>
-		  </div>
+		  	<input type="submit" value = "search" className="btn btn-default"/>
+		  </form>
+		 </div>
 		  );	
+	},
+	handleSubmit: function(e){
+		console.log('form was submitted');
+		e.preventDefault();
 	}
 });
 
