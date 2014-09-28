@@ -8,9 +8,7 @@ var SearchBox = React.createClass({
 	},
 	render : function(){
 		return (
-			<div>
 				<input className="typeahead form-control" type="text" placeholder="Enter a search term e.g. soccer" onChange={this.handleChange}/>
-			</div>
 			);
 	},
 	componentDidMount: function(){
@@ -67,7 +65,7 @@ var SearchBoxResults = React.createClass({
 	render: function() {
 		return (
 		<div>
-			<div className="middle input-group-lg">
+			<div className="centered input-group-lg">
 			  <form className="searchForm" onSubmit={this.handleSubmit}>
 			  	<SearchBox ref="searchBox" setSearchTermHandler={this.setSearchTermHandler}/>
 			  	<input type="submit" value = "search" className="btn btn-default"/>

@@ -1,0 +1,9 @@
+.centered {
+	position:relative;
+	margin:0 auto;
+	text-align:left;
+	clear:left;
+	height:auto;
+	z-index: 0;
+	text-align:center;
+}
