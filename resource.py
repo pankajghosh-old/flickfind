@@ -67,6 +67,7 @@ class SearchResultsResource(Resource):
 		args = self.request_parser.parse_args()
 		search_term = args['search_term']
 
+		print 'getting search results for term', search_term
 		search_results = SearchResults.get(search_term)
 		response = flask.make_response(search_results)
 		response.mimetype = 'application/json'

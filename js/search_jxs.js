@@ -61,16 +61,20 @@ var SearchBox = React.createClass({
 var SearchBoxResults = React.createClass({
 	getInitialState: function(){
 		return {
-			searchTerm:""
+			searchTerm:"",
+			searchResults:[]
 		};
 	},
 	render: function() {
 		return (
-		<div className="middle input-group-lg">
-		  <form className="searchForm" onSubmit={this.handleSubmit}>
-		  	<SearchBox search_results_url="search_results" ref="searchBox" setSearchTermHandler={this.setSearchTermHandler}/>
-		  	<input type="submit" value = "search" className="btn btn-default"/>
-		  </form>
+		<div>
+			<div className="middle input-group-lg">
+			  <form className="searchForm" onSubmit={this.handleSubmit}>
+			  	<SearchBox ref="searchBox" setSearchTermHandler={this.setSearchTermHandler}/>
+			  	<input type="submit" value = "search" className="btn btn-default"/>
+			  </form>
+			</div>
+		  <SearchResults searchResults={this.state.searchResults} />		  
 		 </div>
 		  );	
 	},
@@ -81,11 +85,25 @@ var SearchBoxResults = React.createClass({
 	handleSubmit: function(e){
 		console.log('form was submitted');
 		e.preventDefault();
-		console.log(this.refs.searchBox.getDOMNode());
-	}
+		this.loadSearchResultsFromServer();
+	},
+	loadSearchResultsFromServer:function(){
+	$.ajax({
+	  url: this.props.search_results_url,
+	  dataType: 'json',
+	  data: {search_term:this.state.searchTerm},
+	  success: function(data) {
+	    this.setState({searchResults: data});
+	  }.bind(this),
+	  error: function(xhr, status, err) {
+	    console.error(this.props.search_results_url, status, err.toString());
+	  }.bind(this)
+	});
+	},
+
 });
 
 React.renderComponent(
-	<SearchBoxResults/>,
+	<SearchBoxResults search_results_url="search_results" />,
 	document.getElementById('search_div')
 	);
