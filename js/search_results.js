@@ -51,38 +51,50 @@ var SearchResultBanner = React.createClass({
       var audience_score = this.props.searchResult.audience_score;
       var audience_rating = this.props.searchResult.audience_rating;
 
-      var string_element = "";
+      var imdb_rating_style = {display:'none'};
       if (imdb_rating > 0){
-        string_element = '<img src="/assets/imdb_rating.png" width="30" height="30"><span class="badge">'+imdb_rating+'</span></img>'        
+        imdb_rating_style = {};
       }
 
+      var rt_certified_fresh_style = {display:'none'};
+      var rt_fresh_style = {display:'none'};
+      var rt_rotten_style = {display:'none'};
       if (critics_score > 0)
         if (critics_rating === "Certified Fresh")
-          string_element+='<img src="/assets/certified_fresh.png" width="30" height="30"><span class="badge">'+critics_score+'</span></img>'
+          rt_certified_fresh_style = {};
         else if (critics_rating === "Fresh")
-          string_element+='<img src="/assets/fresh.png" width="30" height="30"><span class="badge">'+critics_score+'</span></img>'
+          rt_fresh_style = {};
         else
-          string_element+='<img src="/assets/rotten.png" width="30" height="30"><span class="badge">'+critics_score+'</span></img>'
+          rt_rotten_style = {};
+      
 
+      var rt_spilled_style = {display:'none'};
+      var rt_popcorn_style = {display:'none'};
       if (audience_score > 0)
         if (audience_rating === "Spilled")
-          string_element+='<img src="/assets/spilled.png" width="30" height="30"><span class="badge">'+audience_score+'</span></img>'
+          rt_spilled_style = {};    
         else
-          string_element+='<img src="/assets/popcorn.png" width="30" height="30"><span class="badge">'+audience_score+'</span></img>'
-
+          rt_popcorn_style = {};
 
       return (
         <div className={classes}>
           <div className="thumbnail">
             <img src={this.props.searchResult.urlPoster} width="90" height="90"/>
-            <div className="caption">
+            <div className="caption text-center">
               <p className="bg-success">
                 <a href={this.props.searchResult.urlIMDB} className="btn btn-primary center-block" role="button" target = "_blank">
                   {this.props.searchResult.title}
                 </a>
               </p>
               <p>
-                <div className="center-block" dangerouslySetInnerHTML={{__html: string_element}}/>
+                <div className="center-block">
+                  <img src="/assets/imdb_rating.png" width="30" height="30" style={imdb_rating_style}><span class="badge" style={imdb_rating_style}>{imdb_rating}</span></img>
+                  <img src="/assets/certified_fresh.png" width="30" height="30" style={rt_certified_fresh_style}><span class="badge" style={rt_certified_fresh_style}>{critics_score}</span></img>
+                  <img src="/assets/fresh.png" width="30" height="30" style={rt_fresh_style}><span class="badge" style={rt_fresh_style}>{critics_score}</span></img>
+                  <img src="/assets/rotten.png" width="30" height="30" style={rt_rotten_style}><span class="badge" style={rt_rotten_style}>{critics_score}</span></img>
+                  <img src="/assets/spilled.png" width="30" height="30" style={rt_spilled_style}><span class="badge" style={rt_spilled_style}>{audience_score}</span></img>
+                  <img src="/assets/popcorn.png" width="30" height="30" style={rt_popcorn_style}><span class="badge" style={rt_popcorn_style}>{audience_score}</span></img>
+                </div>
               </p>
             </div>  
           </div>
@@ -100,8 +112,8 @@ var SearchResults = React.createClass({
         );
     });
     return (
-      <div className="container">
-        <div className="row">
+      <div className="container-fluid">
+        <div className="row-fluid">
           {searchResultBanners}
         </div>
       </div>
