@@ -41,9 +41,9 @@ var SearchResultBanner = React.createClass({
   render:function(){
       var classes = React.addons.classSet({
         'col-lg-3': true,
-        'col-md-4': true,
-        'col-sm-6': true,
-        'col-xs-6': true,
+        // 'col-md-4': true,
+        // 'col-sm-6': true,
+        // 'col-xs-6': true,
       });
       var imdb_rating = this.props.searchResult.imdb_rating;
       var critics_score = this.props.searchResult.critics_score;
@@ -103,19 +103,42 @@ var SearchResultBanner = React.createClass({
   }
 });
 
-var SearchResults = React.createClass({
+var SearchResultsRow = React.createClass({
   render: function() {
-    var searchResultBanners = this.props.searchResults.map(function (searchResult) {
+    var searchResultBanners = this.props.searchResultsRow.map(function (searchResult) {
       return (
         <SearchResultBanner searchResult={searchResult} key={searchResult.title}>
         </SearchResultBanner>
         );
     });
     return (
-      <div className="container-fluid">
-        <div className="row-fluid">
+        <div className="row">
           {searchResultBanners}
         </div>
+        )
+  }
+})
+
+var SearchResults = React.createClass({
+  render: function() {
+    var searchResultBannerRows = [];
+    var arr = this.props.searchResults.slice(0);
+    while(arr.length) {
+      console.log(arr.splice(0, 4));
+    }
+    
+    arr = this.props.searchResults.slice(0);
+    while(arr.length) {
+      searchResultBannerRows.push( 
+        <SearchResultsRow searchResultsRow={arr.splice(0,4)}>
+        </SearchResultsRow>
+      );
+      
+    }
+
+    return (
+      <div className="container">
+        {searchResultBannerRows}
       </div>
       );  
   }  
