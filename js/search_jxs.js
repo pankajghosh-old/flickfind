@@ -12,6 +12,9 @@ var SearchBox = React.createClass({
 			);
 	},
 	componentDidMount: function(){
+		this.fetchSearchTerms();
+	},
+	fetchSearchTerms: function(){
 		var element = this.getDOMNode();
 		var search_terms = new Bloodhound({
 		  datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.term); },
@@ -31,8 +34,8 @@ var SearchBox = React.createClass({
 			name: 'search_terms',
 			displayKey: 'term',		  
 			source: search_terms.ttAdapter()
-		});
-	},
+		});		
+	}
 	handleChange: function(e){
 		this.props.setSearchTermHandler(e.target.value);
 	},
@@ -52,8 +55,23 @@ var SearchBox = React.createClass({
 		  }.bind(this)
 		});
 	},
+	addSearchTermAfterLoadingSearchResults:function(search_term){
+	    $.ajax({
+	      url: this.props.search_terms_url,
+	      dataType: 'json',
+	      type: 'POST',
+	      data: {term:search_term},
+	      success: function(data) {
+	        this.fetchSearchTerms();
+	      }.bind(this),
+	      error: function(xhr, status, err) {
+	        console.error(this.props.search_terms_url, status, err.toString());
+	      }.bind(this)
+	    });
 
-	});
+	}
+
+});
 
 var SearchBoxResults = React.createClass({
 	getInitialState: function(){
@@ -67,7 +85,7 @@ var SearchBoxResults = React.createClass({
 		<div>
 			<div className="centered input-group-lg">
 			  <form className="searchForm" onSubmit={this.handleSubmit}>
-			  	<SearchBox ref="searchBox" setSearchTermHandler={this.setSearchTermHandler}/>
+			  	<SearchBox ref="searchBox" setSearchTermHandler={this.setSearchTermHandler} search_terms_url={this.search_terms_url}}/>
 			  	<input type="submit" value = "search" className="btn btn-default"/>
 			  </form>
 			</div>
@@ -104,6 +122,6 @@ var SearchBoxResults = React.createClass({
 });
 
 React.renderComponent(
-	<SearchBoxResults search_results_url="search_results" />,
+	<SearchBoxResults search_results_url="search_results" search_terms_url="search_terms"/>,
 	document.getElementById('search_div')
 	);
